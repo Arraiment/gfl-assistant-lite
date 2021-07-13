@@ -1,10 +1,23 @@
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 * {
   box-sizing: border-box;
 }
 
 body {
-  font: 16px Arial;
+  font-size: 1.25em;
+  font-family: 'Lato', sans-serif;
+  background-color: #121212;
+  color: white;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  display: flex;
+  width: 70%;
+  justify-content: start;
+  flex-direction: row;
 }
 
 .autocomplete {
@@ -12,27 +25,33 @@ body {
   display: inline-block;
 }
 
+form {
+  display: flex;
+  justify-content: space-evenly;
+}
+
 input {
-  border: 1px solid transparent;
-  background-color: #f1f1f1;
+  border: none;
+  border-bottom: 1px solid #ffffff4d;
+  outline: none;
+  background-color: transparent;
+  color: white;
   padding: 10px;
-  font-size: 16px;
+  font-size: 1.25em;
 }
 
 input[type=text] {
-  background-color: #f1f1f1;
   width: 100%;
 }
 
 input[type=submit] {
-  background-color: DodgerBlue;
+  background-color: green;
   color: #fff;
   cursor: pointer;
 }
 
 .autocomplete-items {
   position: absolute;
-  border: 1px solid #d4d4d4;
   border-bottom: none;
   border-top: none;
   z-index: 99;
@@ -44,16 +63,26 @@ input[type=submit] {
 .autocomplete-items div {
   padding: 10px;
   cursor: pointer;
-  background-color: #fff;
-  border-bottom: 1px solid #d4d4d4;
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid #ffffff1a;
 }
 
 .autocomplete-items div:hover {
-  background-color: #e9e9e9;
+  background-color: rgba(251, 255, 30, 0.2);
 }
 
 .autocomplete-active {
-  background-color: DodgerBlue !important;
-  color: #ffffff;
+  background-color: rgba(251, 255, 30, 0.2) !important;
+}
+
+@media only screen and (max-width: 800px) {
+  .container {
+    width: 90%;
+    flex-direction: column;
+  }
+  .autocomplete {
+    width: 70%;
+  }
 }
 </style>

@@ -8,123 +8,122 @@
 
 <body>
 
-  <h2>Autocomplete</h2>
-
-  <form autocomplete="off">
-    <div class="autocomplete" style="width:300px;">
-      <input id="myInput" type="text" name="myCountry">
+  <div class="container">
+    <div>
+      <h2>Search for</h2>
     </div>
-    <input type="submit">
-  </form>
+    <form autocomplete="off">
+      <div class="autocomplete">
+        <input id="dollName" type="text" name="dollName">
+      </div>
+      <input type="submit" value="Go">
+    </form>
+  </div>
+
+  <%- include('script'); -%>
 
   <script>
-    // Takes input field and list of doll names as arguments
+    // Takes input field element and list of doll names as arguments
     function autocomplete(input, array) {
       var currentFocus;
       // Executes below every time text field value changes
       input.addEventListener("input", function (e) {
+        // Assigns value of text field to temp var "val"
         let val = this.value;
-        console.log("j");
+        console.log("triggered");
         // Closes any existing autocompleteLists
         closeAllLists();
+        // If text field is empty, exit function
         if (!val) {
           return false;
         }
         currentFocus = -1;
-        // Creates a div that will contain all autocomplete items
-        let autocompleteList = document.createElement("DIV");
+        // Create div that will contain all autocompleteItems
+        let autocompleteList = document.createElement("div");
         autocompleteList.setAttribute("id", this.id + "autocomplete-list");
         autocompleteList.setAttribute("class", "autocomplete-items");
         // Appends div as child of autocomplete container div
         this.parentNode.appendChild(autocompleteList);
-        /*for each item in the array...*/
+
         array.forEach(name => {
+          // If text matches start of name
           if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
-            let autocompleteItem = document.createElement("DIV");
+            // Create div that contains autocompleteItem with matching name
+            let autocompleteItem = document.createElement("div");
             // Make the matching letters bold
             autocompleteItem.innerHTML = "<strong>" + name.substr(0, val.length) + "</strong>";
             autocompleteItem.innerHTML += name.substr(val.length);
-          }
-        });
-        for (i = 0; i < array.length; i++) {
-          /*check if the item starts with the same letters as the text field value:*/
-           {
-            /*insert a input field that will hold the current array item's value:*/
-            b.innerHTML += "<input type='hidden' value='" + array[i] + "'>";
-            /*execute a function when someone clicks on the item value (DIV element):*/
-            b.addEventListener("click", function (e) {
-              /*insert the value for the autocomplete text field:*/
+            // Create hidden input field to hold autocompleteItem value
+            autocompleteItem.innerHTML += `<input type='hidden' value='${name}'>`;
+            // When autocompleteItem is clicked
+            autocompleteItem.addEventListener("click", function(e) {
+              // Replace text field value with autocompleteItem value
               input.value = this.getElementsByTagName("input")[0].value;
-              /*close the list of autocompleted values,
-              (or any other open lists of autocompleted values:*/
+              // Close autocompleteLists
               closeAllLists();
             });
-            autocompleteList.appendChild(b);
+            // Add autocompleteItem to autocompleteList
+            autocompleteList.appendChild(autocompleteItem);
           }
-        }
+        });
       });
-      /*execute a function presses a key on the keyboard:*/
+      // Executes on keydown
       input.addEventListener("keydown", function (e) {
-        var x = document.getElementById(this.id + "autocomplete-list");
-        if (x) x = x.getElementsByTagName("div");
-        if (e.keyCode == 40) {
-          /*If the arrow DOWN key is pressed,
-          increase the currentFocus variable:*/
+        let list = document.getElementById(this.id + "autocomplete-list");
+        // If autocompleteList exists, get array of autocompleteItem elements
+        if (list) list = list.getElementsByTagName("div");
+        // Change focus based on key pressed
+        if (e.key == 'ArrowDown') {
           currentFocus++;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 38) { //up
-          /*If the arrow UP key is pressed,
-          decrease the currentFocus variable:*/
+          addActive(list);
+        } else if (e.key == 'ArrowUp') {
           currentFocus--;
-          /*and and make the current item more visible:*/
-          addActive(x);
-        } else if (e.keyCode == 13) {
-          /*If the ENTER key is pressed, prevent the form from being submitted,*/
+          addActive(list);
+        } else if (e.key == 'Enter') {
+          // Prevent form from submitting/refreshing
           e.preventDefault();
           if (currentFocus > -1) {
-            /*and simulate a click on the "active" item:*/
-            if (x) x[currentFocus].click();
+            // Simulate a click on the "active" item
+            if (list) list[currentFocus].click();
           }
         }
       });
 
-      function addActive(x) {
-        /*a function to classify an item as "active":*/
-        if (!x) return false;
-        /*start by removing the "active" class on all items:*/
-        removeActive(x);
-        if (currentFocus >= x.length) currentFocus = 0;
-        if (currentFocus < 0) currentFocus = (x.length - 1);
-        /*add class "autocomplete-active":*/
-        x[currentFocus].classList.add("autocomplete-active");
+      function addActive(list) {
+        // Return if list does not exist
+        if (!list) return false;
+        // Remove focus from all elements
+        removeActive(list);
+        // Change focus from last item to first item in list or vice versa
+        if (currentFocus >= list.length) currentFocus = 0;
+        if (currentFocus < 0) currentFocus = (list.length - 1);
+        // Change style of focused autocompleteItem
+        list[currentFocus].classList.add("autocomplete-active");
       }
 
-      function removeActive(x) {
-        /*a function to remove the "active" class from all autocomplete items:*/
-        for (var i = 0; i < x.length; i++) {
-          x[i].classList.remove("autocomplete-active");
+      function removeActive(list) {
+        for (const item of list) {
+          item.classList.remove("autocomplete-active");
         }
       }
-      /*close all autocomplete lists in the document,
-      except the one passed as an argument:*/
-      function closeAllLists(elmnt) {
-        var x = document.getElementsByClassName("autocomplete-items");
-        for (var i = 0; i < x.length; i++) {
-          if (elmnt != x[i] && elmnt != input) {
-            x[i].parentNode.removeChild(x[i]);
+      // Close all autocomplete lists in the document
+      function closeAllLists(element) {
+        let lists = document.getElementsByClassName("autocomplete-items");
+        for (const list of lists) {
+          if (list != element && element != input) {
+            list.parentNode.removeChild(list);
           }
         }
       }
-      /*execute a function when someone clicks in the document:*/
+      // Unfocus input when user clicks outside
       document.addEventListener("click", function (e) {
         closeAllLists(e.target);
       });
     }
+    // Populates array of names with prop from server
     var names = <%- JSON.stringify(names) %>;
-    console.log(names); 
-    /*initiate the autocomplete function on the "myInput" element, and pass along the countries array as possible autocomplete values:*/
-    autocomplete(document.getElementById("myInput"), names);
+    console.log(names);
+    autocomplete(document.getElementById("dollName"), names);
   </script>
 
 </body>
