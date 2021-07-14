@@ -5,6 +5,22 @@
     window.open("https://github.com/Arraiment/gfl-assistant-lite");
   });
 
+  // Set up modal exit
+  const modalCancel = document.getElementById("modal-cancel");
+  modalCancel.addEventListener("click", function (e) {
+    resetModal();
+  });
+
+  // Resets modal
+  function resetModal() {
+    const content = document.getElementById("modal");
+    content.style.display = "none";
+    const linkButtons = document.getElementsByClassName("modal-button");
+    while (linkButtons[0]) {
+      linkButtons[0].parentNode.removeChild(linkButtons[0]);
+    }
+  }
+
   // Takes input field element and list of doll names as arguments
   function autocomplete(input, array) {
     var currentFocus;
@@ -107,15 +123,42 @@
     });
     // Creates 3 links that should open new tabs to each gfl site
     function searchUrl(name) {
-      const iop = `https://iopwiki.com/index.php?search=${name}`;
-      const gamepress = `https://gamepress.gg/girlsfrontline/search?query=${name}`;
-      const atmg = `https://gfl.matsuda.tips/search?q=${name}`;
-      const urlArray = [iop, gamepress, atmg];
-      urlArray.forEach(url => {
-        let link = document.createElement("a");
-        link.href = url;
+      const dialog = document.getElementById("modal");
+      dialog.style.display = "flex";
+      const title = document.getElementById("modal-title");
+      title.innerText = name;
+      const iop = {
+        name: 'IOP Wiki',
+        url: `https://iopwiki.com/index.php?search=${name}`
+      };
+      const gamepress = {
+        name: 'GamePress Wiki',
+        url: `https://gamepress.gg/girlsfrontline/search?query=${name}`
+      };
+      const atmg = {
+        name: 'Angry Trap Midget\'s Guide',
+        url: `https://gfl.matsuda.tips/search?q=${name}`
+      };
+      const gfla = {
+        name: 'GFL Analysis',
+        url: `https://www.gflanalysis.com/w/index.php?search=${name}`
+      };
+      const urlArray = [iop, gamepress, atmg, gfla];
+      // Creates buttons for each object, adds to modal
+      urlArray.forEach(obj => {
+        const link = document.createElement("a");
+        link.classList.add("modal-button")
+        link.classList.add("modal-item")
+        link.href = obj.url;
         link.target = "_blank";
-        link.click();
+        link.innerHTML = `
+          <p>${obj.name}</p>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/>
+          </svg>
+        `;
+        const modal = document.getElementById("modal-content");
+        modal.appendChild(link);
       });
     }
   }

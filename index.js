@@ -8,7 +8,6 @@ app.set('view engine', 'ejs')
 app.get('/', (req, res) => {
   scraper.getDolls()
     .then((names) => {
-      console.log(names);
       res.render('index', { names: names })
     })
     .catch(error => console.log(error))
