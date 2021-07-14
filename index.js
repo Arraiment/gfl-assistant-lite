@@ -10,7 +10,10 @@ app.get('/', (req, res) => {
     .then((names) => {
       res.render('index', { names: names })
     })
-    .catch(error => console.log(error))
+    .catch((error) => {
+      console.log(error)
+      res.render('error')
+    })
 })
 
 app.listen(port, () => {
