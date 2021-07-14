@@ -17,8 +17,10 @@
       clearList();
       // If text field is empty, exit function
       if (!val) {
+        document.getElementById("cancel").style.visibility = "hidden";
         return false;
       }
+      document.getElementById("cancel").style.visibility = "visible";
       currentFocus = -1;
       // Gets div that will contain all listItems
       let list = document.getElementById("autocomplete-list");
@@ -101,6 +103,7 @@
     cancel.addEventListener("click", function (e) {
       clearList();
       input.value = "";
+      document.getElementById("cancel").style.visibility = "hidden";
     });
     // Creates 3 links that should open new tabs to each gfl site
     function searchUrl(name) {
