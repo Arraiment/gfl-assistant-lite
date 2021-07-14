@@ -1,8 +1,11 @@
 # GFL Assistant Lite
-Ultra lightweight GFL assistant, you do most of the work
-Simple web app with ejs, expressjs, nodejs
-Search for Girls Frontline dolls and see results opened in new tabs/windows (enable popups please)
+
+Ultra lightweight Girls Frontline helper app; built with **ejs, expressjs, nodejs**.
+Search for dolls and see info opened in new tabs/windows (enable popups please).
+Hosted on [Heroku](https://gfl-lite.herokuapp.com).
+
 ## Todo
+
 1. Favicon
 2. Error handling
 3. Testing?
