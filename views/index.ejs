@@ -4,7 +4,7 @@
 <head>
   <title>GFL Assistant Lite</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <%- include('style'); %>
+  <%- include('partials/style'); %>
 </head>
 
 <body>
@@ -31,8 +31,8 @@
     <div class="section" id="autocomplete-list">
     </div>
   </div>
-  <%- include('modal'); %>
-  <%- include('script', { names: names }); %>
+  <%- include('partials/modal'); %>
+  <%- include('partials/script', { names: names }); %>
 </body>
 
 </html>
