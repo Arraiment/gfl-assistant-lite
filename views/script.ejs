@@ -1,0 +1,101 @@
+<script>
+  // Takes input field element and list of doll names as arguments
+  function autocomplete(input, array) {
+    var currentFocus;
+    // Executes below every time text field value changes
+    input.addEventListener("input", function (e) {
+      // Assigns value of text field to temp var "val"
+      let val = this.value;
+      console.log("triggered");
+      // Closes any existing lists
+      clearList();
+      // If text field is empty, exit function
+      if (!val) {
+        return false;
+      }
+      currentFocus = -1;
+      // Gets div that will contain all listItems
+      let list = document.getElementById("autocomplete-list");
+      array.forEach(name => {
+        // If text matches start of name
+        if (name.substr(0, val.length).toUpperCase() == val.toUpperCase()) {
+          // Create div that contains listItem with matching name
+          let listItem = document.createElement("div");
+          // Make the matching letters bold
+          listItem.innerHTML = "<strong>" + name.substr(0, val.length) + "</strong>";
+          listItem.innerHTML += name.substr(val.length);
+          // Create hidden input field to hold listItem value
+          listItem.innerHTML += `<input type='hidden' value='${name}'>`;
+          // When listItem is clicked
+          listItem.addEventListener("click", function (e) {
+            // Replace text field value with listItem value
+            input.value = this.getElementsByTagName("input")[0].value;
+            // Clear list
+            clearList();
+          });
+          // Add listItem to list
+          list.appendChild(listItem);
+        }
+      });
+    });
+    // Executes on keydown
+    input.addEventListener("keydown", function (e) {
+      let list = document.getElementById("autocomplete-list");
+      let listItems;
+      // If list has items, get array of listItems
+      if (list.firstChild) {
+        listItems = list.getElementsByTagName("div");
+      }
+      // Change focus based on key pressed
+      if (e.key == 'ArrowDown') {
+        currentFocus++;
+        addActive(listItems);
+      } else if (e.key == 'ArrowUp') {
+        currentFocus--;
+        addActive(listItems);
+      } else if (e.key == 'Enter') {
+        // Prevent form from submitting/refreshing
+        e.preventDefault();
+        if (currentFocus > -1) {
+          // Simulate a click on the "active" item
+          listItems[currentFocus].click();
+        }
+      }
+    });
+
+    function addActive(list) {
+      // Return if list of items does not exist
+      if (!list) return false;
+      // Remove focus from all elements
+      removeActive(list);
+      // Change focus from last item to first item in list or vice versa
+      if (currentFocus >= list.length) currentFocus = 0;
+      if (currentFocus < 0) currentFocus = (list.length - 1);
+      // Change style of focused listItem
+      list[currentFocus].classList.add("autocomplete-active");
+    }
+
+    function removeActive(list) {
+      for (const item of list) {
+        item.classList.remove("autocomplete-active");
+      }
+    }
+    // Close all autocomplete lists in the document
+    function clearList() {
+      let lists = document.getElementsByClassName("autocomplete-items");
+      for (const list of lists) {
+        if (list != element && element != input) {
+          list.parentNode.removeChild(list);
+        }
+      }
+    }
+    // Unfocus input when user clicks outside
+    document.addEventListener("click", function (e) {
+      clearList();
+    });
+  }
+  // Populates array of names with prop from server
+  var names = <% - JSON.stringify(names) %>;
+  console.log(names);
+  autocomplete(document.getElementById("search-bar"), names);
+</script>

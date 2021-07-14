@@ -1,23 +1,26 @@
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 * {
-  box-sizing: border-box;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
 }
 
 body {
   font-size: 1.25em;
   font-family: 'Lato', sans-serif;
   background-color: #121212;
-  color: white;
   display: flex;
   justify-content: center;
 }
 
 .container {
   display: flex;
+  flex-direction: column;
   width: 70%;
-  justify-content: start;
-  flex-direction: row;
 }
 
 .autocomplete {
@@ -25,16 +28,24 @@ body {
   display: inline-block;
 }
 
-form {
+.section {
+  width: 100%;
+}
+
+.header {
   display: flex;
-  justify-content: space-evenly;
+  justify-content: space-between;
+  align-items: center;
+}
+
+h1 {
+  font-size: 2em;
 }
 
 input {
   border: none;
-  border-bottom: 1px solid #ffffff4d;
   outline: none;
-  background-color: transparent;
+  background-color: #ffffff0d;
   color: white;
   padding: 10px;
   font-size: 1.25em;
@@ -42,12 +53,6 @@ input {
 
 input[type=text] {
   width: 100%;
-}
-
-input[type=submit] {
-  background-color: green;
-  color: #fff;
-  cursor: pointer;
 }
 
 .autocomplete-items {
@@ -60,7 +65,7 @@ input[type=submit] {
   right: 0;
 }
 
-.autocomplete-items div {
+#autocomplete-list div {
   padding: 10px;
   cursor: pointer;
   background-color: transparent;
@@ -68,7 +73,7 @@ input[type=submit] {
   border-bottom: 1px solid #ffffff1a;
 }
 
-.autocomplete-items div:hover {
+#autocomplete-items div:hover {
   background-color: rgba(251, 255, 30, 0.2);
 }
 
@@ -78,8 +83,7 @@ input[type=submit] {
 
 @media only screen and (max-width: 800px) {
   .container {
-    width: 90%;
-    flex-direction: column;
+    width: 95%;
   }
   .autocomplete {
     width: 70%;
