@@ -1,4 +1,10 @@
 <script>
+  // Set up github link
+  const linkGithub = document.getElementById("github");
+  linkGithub.addEventListener("click", function (e) {
+    window.open("https://github.com/Arraiment/gfl-assistant-lite");
+  });
+
   // Takes input field element and list of doll names as arguments
   function autocomplete(input, array) {
     var currentFocus;
@@ -28,10 +34,13 @@
           listItem.innerHTML += `<input type='hidden' value='${name}'>`;
           // When listItem is clicked
           listItem.addEventListener("click", function (e) {
+            let itemValue = this.getElementsByTagName("input")[0].value;
             // Replace text field value with listItem value
-            input.value = this.getElementsByTagName("input")[0].value;
+            input.value = itemValue;
             // Clear list
             clearList();
+            // Execute search
+            searchUrl(itemValue);
           });
           // Add listItem to list
           list.appendChild(listItem);
@@ -80,22 +89,36 @@
         item.classList.remove("autocomplete-active");
       }
     }
-    // Close all autocomplete lists in the document
+    // Close all listItems in list
     function clearList() {
-      let lists = document.getElementsByClassName("autocomplete-items");
-      for (const list of lists) {
-        if (list != element && element != input) {
-          list.parentNode.removeChild(list);
-        }
+      const list = document.getElementById("autocomplete-list");
+      while (list.firstChild) {
+        list.removeChild(list.lastChild);
       }
     }
-    // Unfocus input when user clicks outside
-    document.addEventListener("click", function (e) {
+    // Cancel button functionality
+    const cancel = document.getElementById("cancel");
+    cancel.addEventListener("click", function (e) {
       clearList();
+      input.value = "";
     });
+    // Creates 3 links that should open new tabs to each gfl site
+    function searchUrl(name) {
+      const iop = `https://iopwiki.com/index.php?search=${name}`;
+      const gamepress = `https://gamepress.gg/girlsfrontline/search?query=${name}`;
+      const atmg = `https://gfl.matsuda.tips/search?q=${name}`;
+      const urlArray = [iop, gamepress, atmg];
+      urlArray.forEach(url => {
+        let link = document.createElement("a");
+        link.href = url;
+        link.target = "_blank";
+        link.click();
+      });
+    }
   }
   // Populates array of names with prop from server
-  var names = <% - JSON.stringify(names) %>;
+  var names = `<%- JSON.stringify(names) %>`;
+  names = JSON.parse(names);
   console.log(names);
   autocomplete(document.getElementById("search-bar"), names);
 </script>

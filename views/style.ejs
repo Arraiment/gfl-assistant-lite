@@ -21,19 +21,16 @@ body {
   display: flex;
   flex-direction: column;
   width: 70%;
-}
-
-.autocomplete {
-  position: relative;
-  display: inline-block;
+  color: white;
 }
 
 .section {
+  margin-top: 1em;
   width: 100%;
+  display: flex;
 }
 
 .header {
-  display: flex;
   justify-content: space-between;
   align-items: center;
 }
@@ -42,30 +39,47 @@ h1 {
   font-size: 2em;
 }
 
+svg {
+  fill: white;
+}
+
+svg:hover {
+  fill: #ffffffb3;
+}
+
+form {
+  align-items: center;
+}
+
+.cancel-button {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+label {
+  font-size: 1.25em;
+}
+
 input {
   border: none;
   outline: none;
   background-color: #ffffff0d;
   color: white;
-  padding: 10px;
+  padding: 0 .5em;
   font-size: 1.25em;
+  flex-grow: 1;
 }
 
-input[type=text] {
-  width: 100%;
-}
-
-.autocomplete-items {
-  position: absolute;
-  border-bottom: none;
-  border-top: none;
-  z-index: 99;
-  top: 100%;
-  left: 0;
-  right: 0;
+#autocomplete-list {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 #autocomplete-list div {
+  width: 100%;
   padding: 10px;
   cursor: pointer;
   background-color: transparent;
@@ -84,9 +98,6 @@ input[type=text] {
 @media only screen and (max-width: 800px) {
   .container {
     width: 95%;
-  }
-  .autocomplete {
-    width: 70%;
   }
 }
 </style>
