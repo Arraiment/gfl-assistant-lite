@@ -1,8 +1,12 @@
 const express = require('express')
-const scraper = require('./scraper');
+const path = require('path')
+const scraper = require('./scraper')
 const app = express()
 const port = process.env.PORT || 3000
 
+app.use('/favicon.ico', express.static(
+  path.join(__dirname, 'public/favicon.ico')
+  ))
 app.set('view engine', 'ejs')
 
 app.get('/', (req, res) => {
